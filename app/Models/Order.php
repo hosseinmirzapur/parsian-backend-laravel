@@ -30,6 +30,6 @@ class Order extends Model
 
     public static function generateSpecialID(): string
     {
-        return Str::random(6);
+        return Str::lower(Str::random(6));
     }
 }
