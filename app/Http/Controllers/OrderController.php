@@ -46,7 +46,7 @@ class OrderController extends Controller
     public function store(OrderRequest $request): JsonResponse
     {
         $data = filterData($request->validated());
-        $order = Order::query()->create($data);
+        $order = Order::query()->create($data + ['special_id' => Order::generateSpecialID()]);
         return successResponse([
             'order' => $order
         ]);
