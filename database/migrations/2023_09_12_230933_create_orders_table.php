@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('requester_name')->nullable();
             $table->enum('result_destination', Order::RESULT_DESTINATIONS)->default('EMAIL');
             $table->string('result_email')->nullable();
+            $table->string('special_id')->default(Order::generateSpecialID());
             $table->timestamps();
         });
     }
