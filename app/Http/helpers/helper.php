@@ -68,12 +68,12 @@ if (!function_exists('handleFile')) {
      */
     function handleFile($file): string
     {
-        $fileName = time() . '_' . Str::random(5) . '.' . $file->getClientOriginalExtension();
-        $result = Storage::drive('liara')->put($fileName, $file, 'public');
+        $filename = time() . '-' . Str::random(5) . '.' . $file->getClientOriginalExtension();
+        $result = Storage::drive('liara')->put($filename, file_get_contents($file), 'public');
 
         if (!$result) {
             throw new CustomException('problem uploading file to s3');
         }
-        return $fileName;
+        return $filename;
     }
 }

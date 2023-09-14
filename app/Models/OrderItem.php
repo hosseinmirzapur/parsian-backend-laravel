@@ -20,4 +20,12 @@ class OrderItem extends Model
         return $this->belongsTo(Order::class);
     }
 
+    /**
+     * @param $value
+     * @return string
+     */
+    public function getImageAttribute($value): string
+    {
+        return config('filesystems.disks.liara.url') . '/' . $value;
+    }
 }
