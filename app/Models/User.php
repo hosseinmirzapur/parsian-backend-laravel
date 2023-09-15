@@ -11,6 +11,8 @@ class User extends Model
     use HasApiTokens;
     protected $guarded = ['id'];
 
+    const STATUS = ['ACTIVE', 'INACTIVE'];
+
     /**
      * @param string $mobile
      * @return string
