@@ -1,6 +1,7 @@
 <?php
 
 use App\Exceptions\CustomException;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -75,5 +76,15 @@ if (!function_exists('handleFile')) {
             throw new CustomException('problem uploading file to s3');
         }
         return $filename;
+    }
+}
+
+if (!function_exists('authUser')) {
+    /**
+     * @return Authenticatable|null
+     */
+    function authUser(): ?Authenticatable
+    {
+        return auth('sanctum')->user();
     }
 }

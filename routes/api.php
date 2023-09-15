@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,21 +25,14 @@ Route::resource('/order-item', OrderItemController::class)->except('index')->mid
 
 // User
 Route::prefix('/user')->group(function () {
-    // User Profile
-    Route::prefix('/profile')->group(function () {
-        Route::post('/alter');
-    })->middleware('auth:sanctum');
-
-    // Other User Routes
-    Route::post('/login');
-    Route::post('/register');
-    Route::get('/')->middleware('auth:sanctum');
-
+    Route::post('/login', [UserController::class, 'login']);
+    Route::post('/register', [UserController::class, 'register']);
+    Route::get('/', [UserController::class, 'info'])->middleware('auth:sanctum');
 });
 
 // Admin
 Route::prefix('/admin')->group(function () {
-    Route::post('/login');
+    Route::post('/login', [AdminController::class, 'login']);
 });
 
 Route::get('/test', function () {
