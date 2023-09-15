@@ -64,4 +64,16 @@ class UserController extends Controller
             'user' => authUser()
         ]);
     }
+
+    /**
+     * @return JsonResponse
+     */
+    public function orders(): JsonResponse
+    {
+        $user = authUser();
+
+        return successResponse([
+            'orders' => $user->orders
+        ]);
+    }
 }

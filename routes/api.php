@@ -28,6 +28,7 @@ Route::prefix('/user')->group(function () {
     Route::post('/login', [UserController::class, 'login']);
     Route::post('/register', [UserController::class, 'register']);
     Route::get('/', [UserController::class, 'info'])->middleware('auth:sanctum');
+    Route::get('/orders', [UserController::class, 'orders'])->middleware('auth:sanctum');;
 });
 
 // Admin
