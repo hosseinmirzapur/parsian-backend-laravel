@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\CustomException;
 use App\Http\Requests\AdminLoginRequest;
+use App\Http\Requests\ChangeUserStatusRequest;
 use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
 class AdminController extends Controller
@@ -29,5 +31,17 @@ class AdminController extends Controller
             'admin' => $admin,
             'token' => $token
         ]);
+    }
+
+    /**
+     * @param ChangeUserStatusRequest $request
+     * @param User $user
+     * @return JsonResponse
+     */
+    public function changeUserStatus(ChangeUserStatusRequest $request, User $user): JsonResponse
+    {
+        $data = $request->validated();
+        $user->update($data);
+        return successResponse();
     }
 }

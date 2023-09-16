@@ -29,18 +29,17 @@ class OrderRequest extends FormRequest
             'customer_name' => 'required',
             'requester_name' => 'nullable',
             'result_destination' => ['required', Rule::in(Order::RESULT_DESTINATIONS)],
-            'result_email' => 'nullable'
+            'result_email' => ['nullable', 'email']
         ];
     }
 
     protected function putRules(): array
     {
         return [
-            'mobile' => ['nullable', 'regex:/^09(1[0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}$/'],
             'customer_name' => 'nullable',
             'requester_name' => 'nullable',
-            'result_destination' => 'nullable',
-            'result_email' => 'nullable'
+            'result_destination' => ['nullable', Rule::in(Order::RESULT_DESTINATIONS)],
+            'result_email' => ['nullable', 'email']
         ];
     }
 

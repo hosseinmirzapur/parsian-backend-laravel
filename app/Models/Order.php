@@ -12,6 +12,8 @@ class Order extends Model
     protected $guarded = [];
     const RESULT_DESTINATIONS = ['PERSON', 'ITTA', 'RUBIKA', 'BALE', 'EMAIL'];
 
+    protected $appends = ['status'];
+
     /**
      * @return bool
      */
@@ -31,5 +33,21 @@ class Order extends Model
     public static function generateSpecialID(): string
     {
         return Str::lower(Str::random(6));
+    }
+
+    /**
+     * @return bool
+     */
+    public function getStatusAttribute(): bool
+    {
+        $orderItems = $this->orderItems;
+        $ready = true;
+        foreach ($orderItems as $item) {
+            if ($item->status != 'PAID') {
+                $ready = false;
+            }
+        }
+
+        return $ready;
     }
 }

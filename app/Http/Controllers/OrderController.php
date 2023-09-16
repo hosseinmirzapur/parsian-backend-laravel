@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use App\Exceptions\CustomException;
 use App\Http\Requests\OrderRequest;
 use App\Models\Order;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class OrderController extends Controller
 {
@@ -46,7 +50,9 @@ class OrderController extends Controller
     public function store(OrderRequest $request): JsonResponse
     {
         $data = filterData($request->validated());
-        $order = Order::query()->create($data + ['special_id' => Order::generateSpecialID()]);
+        $this->handleUser($data);
+        $data['special_id'] = Order::generateSpecialID();
+        $order = Order::query()->create($data);
         return successResponse([
             'order' => $order
         ]);
@@ -80,5 +86,24 @@ class OrderController extends Controller
         $order->delete();
 
         return successResponse();
+    }
+
+    /**
+     * @param array $data
+     * @return void
+     */
+    private function handleUser(array &$data): void
+    {
+        $mobile = $data['mobile'];
+        $user = User::query()->where('mobile', $mobile)->first();
+        if (!$user) {
+            $user = User::query()->create([
+                'mobile' => $mobile,
+                'name' => $data['customer_name'],
+                'password' => Hash::make($mobile)
+            ]);
+        }
+
+        $data['user_id'] = $user->id;
     }
 }

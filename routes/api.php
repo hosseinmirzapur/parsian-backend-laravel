@@ -34,6 +34,7 @@ Route::prefix('/user')->group(function () {
 // Admin
 Route::prefix('/admin')->group(function () {
     Route::post('/login', [AdminController::class, 'login']);
+    Route::post('/change-status/{id}', [AdminController::class, 'changeUserStatus'])->middleware('auth:sanctum');
 });
 
 Route::get('/test', function () {
