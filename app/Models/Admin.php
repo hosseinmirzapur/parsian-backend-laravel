@@ -10,6 +10,8 @@ class Admin extends Model
 {
     use HasApiTokens;
 
+    protected $guarded = ['id'];
+
     /**
      * @param string $username
      * @return string

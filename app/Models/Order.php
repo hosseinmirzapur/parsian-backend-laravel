@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class Order extends Model
 {
-    protected $guarded = [];
+    protected $guarded = ['id'];
     const RESULT_DESTINATIONS = ['PERSON', 'ITTA', 'RUBIKA', 'BALE', 'EMAIL'];
 
     protected $appends = ['status'];
