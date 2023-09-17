@@ -26,7 +26,7 @@ class RegisterRequest extends FormRequest
         return [
             'name' => 'required',
             'mobile' => ['required', 'regex:/^09(1[0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}$/'],
-            'password' => ['required', Password::min(8)->mixedCase()->numbers()]
+            'password' => ['required', Password::min(8)]
         ];
     }
 }

@@ -46,13 +46,8 @@ class UserController extends Controller
             throw new CustomException('user already has an account');
         }
         $data['password'] = Hash::make($data['password']);
-        $newUser = User::query()->create($data);
-
-        $token = $newUser->newToken($data['mobile']);
-        return successResponse([
-            'user' => $newUser,
-            'token' => $token
-        ]);
+        User::query()->create($data);
+        return successResponse();
     }
 
     /**
