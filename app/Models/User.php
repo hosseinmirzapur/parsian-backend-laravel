@@ -36,6 +36,6 @@ class User extends Model
      */
     public function getCreatedAtAttribute($value): string
     {
-        return verta($value)->formatWord('l dS F Y');
+        return verta($value)->formatWord('Y/m/d H:i:s');
     }
 }
