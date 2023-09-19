@@ -1,6 +1,8 @@
 <?php
 
 use App\Exceptions\CustomException;
+use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
@@ -80,10 +82,8 @@ if (!function_exists('handleFile')) {
 }
 
 if (!function_exists('authUser')) {
-    /**
-     * @return Authenticatable|null
-     */
-    function authUser(): ?Authenticatable
+
+    function authUser(): Authenticatable | User | Admin
     {
         return auth('sanctum')->user();
     }
