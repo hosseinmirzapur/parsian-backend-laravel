@@ -29,4 +29,13 @@ class User extends Model
     {
         return $this->hasMany(Order::class);
     }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public function getCreatedAtAttribute($value): string
+    {
+        return verta($value)->formatWord('l dS F Y');
+    }
 }

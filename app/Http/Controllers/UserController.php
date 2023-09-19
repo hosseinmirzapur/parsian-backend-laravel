@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\CustomException;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Resources\UserInfoResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
@@ -55,8 +56,9 @@ class UserController extends Controller
      */
     public function info(): JsonResponse
     {
+        $data = UserInfoResource::make(authUser());
         return successResponse([
-            'user' => authUser()
+            'data' => $data
         ]);
     }
 
