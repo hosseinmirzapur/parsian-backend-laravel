@@ -36,6 +36,6 @@ class User extends Model
      */
     public function getCreatedAtAttribute($value): string
     {
-        return verta($value)->format('Y/m/d H:i:s');
+        return verta($value)->format('Y/m/d');
     }
 }
