@@ -18,7 +18,7 @@ class UserInfoResource extends JsonResource
             'mobile' => $this->mobile,
             'name' => $this->name,
             'status' => $this->status,
-            'orders_count' => $this->orders()->with('orderItems')->get(),
+            'orders_count' => $this->orders()->with('orderItems')->get()->count(),
             'registered_at' => $this->created_at,
         ];
     }
