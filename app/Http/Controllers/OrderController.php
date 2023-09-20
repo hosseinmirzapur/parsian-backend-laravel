@@ -52,9 +52,9 @@ class OrderController extends Controller
         $data = filterData($request->validated());
         $this->handleUser($data);
         $data['special_id'] = Order::generateSpecialID();
-        $order = Order::query()->create($data);
+        Order::query()->create($data);
         return successResponse([
-            'order' => $order
+            'orders' => Order::query()->orderByDesc('id')->get()
         ]);
     }
 
@@ -91,17 +91,14 @@ class OrderController extends Controller
     /**
      * @param array $data
      * @return void
+     * @throws CustomException
      */
     private function handleUser(array &$data): void
     {
         $mobile = $data['mobile'];
         $user = User::query()->where('mobile', $mobile)->first();
         if (!$user) {
-            $user = User::query()->create([
-                'mobile' => $mobile,
-                'name' => $data['customer_name'],
-                'password' => Hash::make($mobile)
-            ]);
+            throw new CustomException('mobile does not belong to any existing user');
         }
 
         $data['user_id'] = $user->id;
