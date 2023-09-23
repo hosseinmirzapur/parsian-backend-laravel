@@ -19,7 +19,7 @@ class OrderRequest extends FormRequest
 
     public function rules(): array
     {
-        return $this->isMethod('post') ? $this->postRules()  : $this->putRules();
+        return $this->isMethod('post') ? $this->postRules() : $this->putRules();
     }
 
     protected function postRules(): array
@@ -36,6 +36,7 @@ class OrderRequest extends FormRequest
     protected function putRules(): array
     {
         return [
+            'mobile' => ['nullable', 'regex:/^09(1[0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}$/'],
             'customer_name' => 'nullable',
             'requester_name' => 'nullable',
             'result_destination' => ['nullable', Rule::in(Order::RESULT_DESTINATIONS)],

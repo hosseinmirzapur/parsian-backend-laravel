@@ -5,12 +5,9 @@ namespace App\Http\Controllers;
 use App\Exceptions\CustomException;
 use App\Http\Requests\OrderRequest;
 use App\Models\Order;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+
 
 class OrderController extends Controller
 {
@@ -20,7 +17,7 @@ class OrderController extends Controller
      */
     public function index(): JsonResponse
     {
-        $orders = Order::all();
+        $orders = Order::query()->orderByDesc('id')->get;
 
         return successResponse([
             'orders' => $orders
@@ -70,6 +67,9 @@ class OrderController extends Controller
 
         $data = filterData($request->validated());
 
+        if (!$order->canBeUpdated()) {
+            throw new CustomException('order can not be updated');
+        }
         $order->update($data);
 
         return successResponse();
@@ -91,16 +91,9 @@ class OrderController extends Controller
     /**
      * @param array $data
      * @return void
-     * @throws CustomException
      */
     private function handleUser(array &$data): void
     {
-        $mobile = $data['mobile'];
-        $user = User::query()->where('mobile', $mobile)->first();
-        if (!$user) {
-            throw new CustomException('mobile does not belong to any existing user');
-        }
-
-        $data['user_id'] = $user->id;
+        $data['user_id'] = authUser()->getAttribute('id');
     }
 }

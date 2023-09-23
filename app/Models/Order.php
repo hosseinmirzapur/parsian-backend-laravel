@@ -23,6 +23,14 @@ class Order extends Model
     }
 
     /**
+     * @return bool
+     */
+    public function canBeUpdated(): bool
+    {
+        return !$this->status;
+    }
+
+    /**
      * @return HasMany
      */
     public function orderItems(): HasMany
@@ -48,6 +56,9 @@ class Order extends Model
             }
         }
 
+        if ($orderItems->count() == 0) {
+            $ready = false;
+        }
         return $ready;
     }
 }
