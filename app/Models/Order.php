@@ -25,7 +25,7 @@ class Order extends Model
     /**
      * @return bool
      */
-    public function canBeUpdated(): bool
+    public function canBeChanged(): bool
     {
         return !$this->status;
     }

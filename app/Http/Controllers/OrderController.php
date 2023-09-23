@@ -67,7 +67,7 @@ class OrderController extends Controller
 
         $data = filterData($request->validated());
 
-        if (!$order->canBeUpdated()) {
+        if (!$order->canBeChanged()) {
             throw new CustomException('order can not be updated');
         }
         $order->update($data);
@@ -78,11 +78,15 @@ class OrderController extends Controller
     /**
      * @param $id
      * @return JsonResponse
+     * @throws CustomException
      */
     public function destroy($id): JsonResponse
     {
         $order = Order::query()->findOrFail($id);
 
+        if (!$order->canBeChanged()) {
+            throw new CustomException('order can not be deleted');
+        }
         $order->delete();
 
         return successResponse();
