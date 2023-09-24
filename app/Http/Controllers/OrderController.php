@@ -32,7 +32,7 @@ class OrderController extends Controller
     {
         $order = Order::query()->findOrFail($id);
 
-        $order->load('orderItems');
+        $order->load(['orderItems', 'user']);
 
         return successResponse([
             'order' => $order
