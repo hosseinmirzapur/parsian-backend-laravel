@@ -28,4 +28,9 @@ class OrderItem extends Model
     {
         return config('filesystems.disks.liara.url') . '/' . $value;
     }
+
+    public function getCreatedAtAttribute($value): string
+    {
+        return verta($value)->format('Y/m/d H:i');
+    }
 }
