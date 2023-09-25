@@ -17,7 +17,7 @@ class OrderController extends Controller
      */
     public function index(): JsonResponse
     {
-        $orders = Order::query()->orderByDesc('id')->get;
+        $orders = Order::query()->orderByDesc('id')->get();
 
         return successResponse([
             'orders' => $orders
