@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Admin;
 use App\Models\OrderItem;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -20,13 +21,12 @@ class OrderItemRequest extends FormRequest
         return $this->isMethod('post') ? $this->postRules() : $this->putRules();
     }
 
-    public function postRules(): array
+    protected function postRules(): array
     {
         return [
             'name' => 'required',
             'sand_paper' => ['required', 'boolean'],
             'destruction' => ['required', 'boolean'],
-            'status' => ['required', Rule::in(OrderItem::STATUS)],
             'test_type' => ['required', Rule::in(OrderItem::TEST_TYPES)],
             'quantity' => ['required', 'min:1'],
             'description' => 'nullable',
@@ -35,8 +35,23 @@ class OrderItemRequest extends FormRequest
         ];
     }
 
-    public function putRules(): array
+    protected function putRules(): array
     {
+        return authUser() instanceof Admin ? $this->updateByAdminRules() : $this->updateByUserRules();
+    }
+
+    protected function updateByUserRules(): array {
+        return [
+            'name' => 'nullable',
+            'sand_paper' => ['nullable', 'boolean'],
+            'destruction' => ['nullable', 'boolean'],
+            'test_type' => ['nullable', Rule::in(OrderItem::TEST_TYPES)],
+            'quantity' => ['nullable', 'min:1'],
+            'description' => 'nullable',
+        ];
+    }
+
+    protected function updateByAdminRules(): array {
         return [
             'name' => 'nullable',
             'sand_paper' => ['nullable', 'boolean'],
