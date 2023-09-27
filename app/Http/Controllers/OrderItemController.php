@@ -69,7 +69,7 @@ class OrderItemController extends Controller
      */
     private function handleImage(&$data): void
     {
-        if (exists($data['image'])) {
+        if (array_key_exists('image', $data)) {
             $data['image'] = handleFile($data['image']);
         }
     }
