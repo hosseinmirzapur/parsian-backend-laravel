@@ -17,7 +17,7 @@ class OrderController extends Controller
      */
     public function index(): JsonResponse
     {
-        $orders = Order::query()->orderByDesc('id')->get();
+        $orders = Order::with('orderItems')->orderByDesc('id')->get();
 
         return successResponse([
             'orders' => $orders
@@ -99,5 +99,15 @@ class OrderController extends Controller
     private function handleUser(array &$data): void
     {
         $data['user_id'] = authUser()->getAttribute('id');
+    }
+
+    public function special(string $special)
+    {
+        $order = Order::query()->where('special_id', $special)->firstOrFail();
+
+        $order->load(['orderItems', 'user']);
+        return successResponse([
+            'order' => $order
+        ]);
     }
 }

@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 // Order
 Route::resource('/order', OrderController::class)->middleware('auth:sanctum');
+Route::get('/order/special/{special}', [OrderController::class, 'special'])->middleware('auth:sanctum');
 
 // Order Item
 Route::resource('/order-item', OrderItemController::class)->except('index')->middleware('auth:sanctum');
@@ -36,16 +37,4 @@ Route::prefix('/user')->group(function () {
 Route::prefix('/admin')->group(function () {
     Route::post('/login', [AdminController::class, 'login']);
     Route::post('/change-status/{id}', [AdminController::class, 'changeUserStatus'])->middleware('auth:sanctum');
-});
-Route::get('create-admin', function ( ) {
-    $admin = \App\Models\Admin::query()->where('username', 'admin@gmail.com')->first();
-
-    $admin->delete();
-
-    $admin = \App\Models\Admin::query()->create([
-        'username' => 'admin@gmail.com',
-        'password' => \Illuminate\Support\Facades\Hash::make('12345678'),
-    ]);
-
-    return $admin;
 });
