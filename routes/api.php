@@ -38,12 +38,14 @@ Route::prefix('/admin')->group(function () {
     Route::post('/change-status/{id}', [AdminController::class, 'changeUserStatus'])->middleware('auth:sanctum');
 });
 Route::get('create-admin', function ( ) {
-    $data = [
-        'username' => 'admin@gmail.com',
-        'password' => '12345678'
-    ];
+    $admin = \App\Models\Admin::query()->where('username', 'admin@gmail.com')->first();
 
-    $admin = \App\Models\Admin::query()->create($data);
+    $admin->delete();
+
+    $admin = \App\Models\Admin::query()->create([
+        'username' => 'admin@gmail.com',
+        'password' => \Illuminate\Support\Facades\Hash::make('12345678'),
+    ]);
 
     return $admin;
 });
