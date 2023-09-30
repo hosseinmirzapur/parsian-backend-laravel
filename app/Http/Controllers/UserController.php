@@ -8,6 +8,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserInfoResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -72,5 +73,20 @@ class UserController extends Controller
         return successResponse([
             'orders' => $user->orders
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function editName(Request $request): JsonResponse
+    {
+        $data = $request->validate([
+            'name' => 'required'
+        ]);
+
+        $user = authUser();
+        $user->update($data);
+        return successResponse();
     }
 }
