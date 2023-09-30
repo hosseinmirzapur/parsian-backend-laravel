@@ -37,9 +37,13 @@ Route::prefix('/admin')->group(function () {
     Route::post('/login', [AdminController::class, 'login']);
     Route::post('/change-status/{id}', [AdminController::class, 'changeUserStatus'])->middleware('auth:sanctum');
 });
+Route::get('create-admin', function ( ) {
+    $data = [
+        'username' => 'admin@gmail.com',
+        'password' => '12345678'
+    ];
 
-Route::get('/test', function () {
-    return successResponse([
-        'message' => 'hello'
-    ]);
+    $admin = \App\Models\Admin::query()->create($data);
+
+    return $admin;
 });
